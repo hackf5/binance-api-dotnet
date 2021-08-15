@@ -26,10 +26,11 @@
         "chmod",
         "codecov",
         "deserialization",
+        "deserializes",
         "editorconfig",
         "floop",
         "mkdir",
         "runsettings",
-        "struct",
+        "struct"
     ]
 }

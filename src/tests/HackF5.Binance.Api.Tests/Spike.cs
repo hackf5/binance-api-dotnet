@@ -7,7 +7,7 @@ namespace HackF5.Binance.Api.Tests
         [Fact]
         public void TestName()
         {
-            Assert.NotNull(new Class1());
+            // Assert.NotNull(new Class1());
         }
     }
 }
