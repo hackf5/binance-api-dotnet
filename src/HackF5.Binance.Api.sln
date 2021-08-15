@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackF5.Binance.Api", "HackF5.Binance.Api\HackF5.Binance.Api.csproj", "{9F02B3F4-E2F5-45A8-AB69-9EA343EA89FC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".test", ".test", "{22CD1C6E-C6D9-4E3A-BC3A-FF04BEC87E49}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{22CD1C6E-C6D9-4E3A-BC3A-FF04BEC87E49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackF5.Binance.Api.Tests", ".test\HackF5.Binance.Api.Tests\HackF5.Binance.Api.Tests.csproj", "{9B002566-4F83-487B-A32C-2CC8A53CAADF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackF5.Binance.Api.Tests", "tests\HackF5.Binance.Api.Tests\HackF5.Binance.Api.Tests.csproj", "{9B002566-4F83-487B-A32C-2CC8A53CAADF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
