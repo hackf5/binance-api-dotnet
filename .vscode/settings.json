@@ -1,0 +1,35 @@
+{
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.organizeImportsOnFormat": true,
+    "omnisharp.enableAsyncCompletion": true,
+
+    "editor.rulers": [
+        {
+            "column": 100,
+            "color": "#363636"
+        },
+        {
+            "column": 120,
+            "color": "#7e0000"
+        },
+    ],
+    "cSpell.words": [
+        "ASPNETCORE",
+        "Destructurama",
+        "Destructure",
+        "Financials",
+        "Flurl",
+        "NOLOGO",
+        "Serilog",
+        "Xunit",
+        "chmod",
+        "codecov",
+        "deserialization",
+        "editorconfig",
+        "floop",
+        "mkdir",
+        "runsettings",
+        "struct",
+    ]
+}

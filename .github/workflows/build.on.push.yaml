@@ -1,0 +1,45 @@
+name: build-on-push
+
+on: [push]
+
+jobs:
+  build:
+    name: Build and Run Tests
+    runs-on: ubuntu-latest
+    env:
+      src-directory: ./src
+      DOTNET_NOLOGO: true
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@main
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: "5.0.x"
+
+      - name: Install dependencies
+        working-directory: ${{ env.src-directory }}
+        run: dotnet restore
+
+      - name: Build
+        working-directory: ${{ env.src-directory }}
+        run: >
+          dotnet build
+          --configuration Release
+          --no-restore 
+          /property:GenerateFullPaths=true
+
+      - name: Test
+        working-directory: ${{ env.src-directory }}
+        run: >
+          dotnet test
+          --configuration Release
+          --no-restore 
+          --collect:"XPlat Code Coverage" 
+          --settings test.runsettings
+
+      - name: Upload Codecov
+        uses: codecov/codecov-action@v2.0.2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

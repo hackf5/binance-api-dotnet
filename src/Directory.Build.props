@@ -1,0 +1,22 @@
+<Project>
+    <PropertyGroup>
+        <Company>Hack F5</Company>
+        <Product>Binance API</Product>
+        <Description>A(nother) dotnet API for the Binance trading platform</Description>
+        <Copyright>© hackf5.io</Copyright>
+        <Version>1.0.0.0</Version>
+        <BaseOutputPath>.bin/</BaseOutputPath>
+        <BaseIntermediateOutputPath>.obj/</BaseIntermediateOutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <AnalysisLevel>latest</AnalysisLevel>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+</Project>
