@@ -8,41 +8,26 @@
 
     public class AggregateTradeStreamEvent : StreamEvent
     {
-        [JsonConstructor]
-        public AggregateTradeStreamEvent(
-            [JsonProperty("e")] string eventType,
-            [JsonProperty("E"), JsonConverter(typeof(UnixTimeConverter))] DateTime eventTime,
-            [JsonProperty("s")] string symbol,
-            [JsonProperty("a")] long aggregateTradeId,
-            [JsonProperty("f")] long firstTradeId,
-            [JsonProperty("m")] bool isBuyerMaker,
-            [JsonProperty("l")] long lastTradeId,
-            [JsonProperty("p")] decimal price,
-            [JsonProperty("q")] decimal quantity,
-            [JsonProperty("T"), JsonConverter(typeof(UnixTimeConverter))] DateTime tradeTime)
-        : base(eventType, eventTime, symbol)
-        {
-            this.AggregateTradeId = aggregateTradeId;
-            this.FirstTradeId = firstTradeId;
-            this.IsBuyerMaker = isBuyerMaker;
-            this.LastTradeId = lastTradeId;
-            this.Price = price;
-            this.Quantity = quantity;
-            this.TradeTime = tradeTime;
-        }
+        [JsonProperty("a")]
+        public long AggregateTradeId { get; set; }
 
+        [JsonProperty("f")]
+        public long FirstTradeId { get; set; }
+
+        [JsonProperty("m")]
+        public bool IsBuyerMaker { get; set; }
+
+        [JsonProperty("l")]
+        public long LastTradeId { get; set; }
+
+        [JsonProperty("p")]
+        public decimal Price { get; set; }
+
+        [JsonProperty("q")]
+        public decimal Quantity { get; set; }
+
+        [JsonProperty("T")]
+        [JsonConverter(typeof(UnixTimeConverter))]
         public DateTime TradeTime { get; set; }
-
-        public long AggregateTradeId { get; }
-
-        public long FirstTradeId { get; }
-
-        public bool IsBuyerMaker { get; }
-
-        public long LastTradeId { get; }
-
-        public decimal Price { get; }
-
-        public decimal Quantity { get; }
     }
 }

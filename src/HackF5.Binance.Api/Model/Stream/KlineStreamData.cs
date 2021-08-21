@@ -3,8 +3,6 @@
     using System;
     using System.Diagnostics;
 
-    using EnumsNET;
-
     using HackF5.Binance.Api.Model.Core;
     using HackF5.Binance.Api.Util;
 
@@ -12,75 +10,57 @@
     using Newtonsoft.Json.Converters;
 
     [DebuggerDisplay("T:{OpenTime} - {CloseTime}, o:{OpenPrice}, c:{ClosePrice}, h:{HighPrice}, l:{LowPrice}")]
-    public class KlineStreamData : IKlineItem
+    public class KlineStreamData
     {
-        [JsonConstructor]
-        public KlineStreamData(
-            [JsonProperty("t"), JsonConverter(typeof(UnixTimeConverter))] DateTime openTime,
-            [JsonProperty("T"), JsonConverter(typeof(UnixTimeConverter))] DateTime closeTime,
-            [JsonProperty("s")] string symbol,
-            [JsonProperty("i"), JsonConverter(typeof(StringEnumConverter))] KlineInterval interval,
-            [JsonProperty("f")] long firstTradeId,
-            [JsonProperty("L")] long lastTradeId,
-            [JsonProperty("o")] decimal openPrice,
-            [JsonProperty("c")] decimal closePrice,
-            [JsonProperty("h")] decimal highPrice,
-            [JsonProperty("l")] decimal lowPrice,
-            [JsonProperty("v")] decimal baseAssetVolume,
-            [JsonProperty("n")] long numberOfTrades,
-            [JsonProperty("x")] bool isClosed,
-            [JsonProperty("q")] decimal quoteAssetVolume,
-            [JsonProperty("V")] decimal takerBuyBaseAssetVolume,
-            [JsonProperty("Q")] decimal takerBuyQuoteAssetVolume)
-        {
-            this.Symbol = symbol;
-            this.Interval = interval;
-            this.FirstTradeId = firstTradeId;
-            this.LastTradeId = lastTradeId;
-            this.OpenPrice = openPrice;
-            this.ClosePrice = closePrice;
-            this.HighPrice = highPrice;
-            this.LowPrice = lowPrice;
-            this.BaseAssetVolume = baseAssetVolume;
-            this.NumberOfTrades = numberOfTrades;
-            this.IsClosed = isClosed;
-            this.QuoteAssetVolume = quoteAssetVolume;
-            this.TakerBuyBaseAssetVolume = takerBuyBaseAssetVolume;
-            this.TakerBuyQuoteAssetVolume = takerBuyQuoteAssetVolume;
-            this.OpenTime = openTime;
-            this.CloseTime = closeTime;
-        }
+        [JsonProperty("v")]
+        public decimal BaseAssetVolume { get; set; }
 
-        public decimal BaseAssetVolume { get; }
+        [JsonProperty("c")]
+        public decimal ClosePrice { get; set; }
 
-        public decimal ClosePrice { get; }
+        [JsonProperty("T")]
+        [JsonConverter(typeof(UnixTimeConverter))]
+        public DateTime CloseTime { get; set; }
 
-        public DateTime CloseTime { get; }
+        [JsonProperty("f")]
+        public long FirstTradeId { get; set; }
 
-        public long FirstTradeId { get; }
+        [JsonProperty("h")]
+        public decimal HighPrice { get; set; }
 
-        public decimal HighPrice { get; }
+        [JsonProperty("i")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public KlineInterval Interval { get; set; }
 
-        public KlineInterval Interval { get; }
+        [JsonProperty("x")]
+        public bool IsClosed { get; set; }
 
-        public bool IsClosed { get; }
+        [JsonProperty("L")]
+        public long LastTradeId { get; set; }
 
-        public long LastTradeId { get; }
+        [JsonProperty("l")]
+        public decimal LowPrice { get; set; }
 
-        public decimal LowPrice { get; }
+        [JsonProperty("n")]
+        public long NumberOfTrades { get; set; }
 
-        public long NumberOfTrades { get; }
+        [JsonProperty("o")]
+        public decimal OpenPrice { get; set; }
 
-        public decimal OpenPrice { get; }
+        [JsonProperty("t")]
+        [JsonConverter(typeof(UnixTimeConverter))]
+        public DateTime OpenTime { get; set; }
 
-        public DateTime OpenTime { get; }
+        [JsonProperty("q")]
+        public decimal QuoteAssetVolume { get; set; }
 
-        public decimal QuoteAssetVolume { get; }
+        [JsonProperty("V")]
+        public decimal TakerBuyBaseAssetVolume { get; set; }
 
-        public string Symbol { get; }
+        [JsonProperty("Q")]
+        public decimal TakerBuyQuoteAssetVolume { get; set; }
 
-        public decimal TakerBuyBaseAssetVolume { get; }
-
-        public decimal TakerBuyQuoteAssetVolume { get; }
+        [JsonProperty("x")]
+        public bool IsBarFinal { get; set; }
     }
 }

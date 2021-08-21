@@ -7,24 +7,19 @@
     using HackF5.Binance.Api.Util;
 
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     public class StreamEvent
     {
-        [JsonConstructor]
-        public StreamEvent(
-            [JsonProperty("e")] string eventType,
-            [JsonProperty("E"), JsonConverter(typeof(UnixTimeConverter))] DateTime eventTime,
-            [JsonProperty("s")] string symbol)
-        {
-            this.EventType = Enums.Parse<StreamEventType>(eventType, false, EnumFormat.Description);
-            this.EventTime = eventTime;
-            this.Symbol = symbol;
-        }
+        [JsonProperty("e")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public StreamEventType EventType { get; set; }
 
-        public StreamEventType EventType { get; }
+        [JsonProperty("s")]
+        public string? Symbol { get; set; }
 
-        public string Symbol { get; }
-
+        [JsonProperty("E")]
+        [JsonConverter(typeof(UnixTimeConverter))]
         public DateTime EventTime { get; }
     }
 }

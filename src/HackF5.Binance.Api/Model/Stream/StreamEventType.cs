@@ -1,31 +1,32 @@
 ﻿namespace HackF5.Binance.Api.Model.Stream
 {
     using System.ComponentModel;
+    using System.Runtime.Serialization;
 
     public enum StreamEventType
     {
-        [Description("trade")]
+        [EnumMember(Value = "trade")]
         Trade,
 
-        [Description("aggTrade")]
+        [EnumMember(Value = "aggTrade")]
         AggregateTrade,
 
-        [Description("kline")]
+        [EnumMember(Value = "kline")]
         Kline,
 
-        [Description("24hrMiniTicker")]
+        [EnumMember(Value = "24hrMiniTicker")]
         MiniTicker24Hr,
 
-        [Description("24hrTicker")]
+        [EnumMember(Value = "24hrTicker")]
         Ticker24Hr,
 
-        [Description("bookTicker")]
+        [EnumMember(Value = "bookTicker")]
         BookTicker,
 
-        [Description("miniBookDepth")]
+        [EnumMember(Value = "miniBookDepth")]
         MiniBookDepth,
 
-        [Description("depthUpdate")]
+        [EnumMember(Value = "depthUpdate")]
         BookDepth,
     }
 }
