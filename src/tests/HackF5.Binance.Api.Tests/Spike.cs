@@ -19,9 +19,7 @@ namespace HackF5.Binance.Api.Tests
 
         public async Task Spike1Async()
         {
-            using var client = new WebSocketClient();
-
-            await client.ConnectAsync(new[] { "btcusdt@aggTrade", "btcusdt@bookTicker" });
+            using var client = new WebSocketClient(new[] { "btcusdt@aggTrade", "btcusdt@bookTicker" });
 
             var count = 100;
             await foreach (var item in client.GetStreamAsync())
