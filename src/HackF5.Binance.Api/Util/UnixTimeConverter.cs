@@ -12,7 +12,7 @@ namespace HackF5.Binance.Api.Util
 
         public override bool CanWrite => base.CanWrite;
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
         {
             var value = reader.Value;
             return value == null
@@ -20,7 +20,7 @@ namespace HackF5.Binance.Api.Util
                 : (object)DateTimeOffset.FromUnixTimeMilliseconds((long)value).DateTime;
         }
 
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)
         {
             var offset = value switch
             {

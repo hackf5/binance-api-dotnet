@@ -59,8 +59,5 @@
 
         [JsonProperty("Q")]
         public decimal TakerBuyQuoteAssetVolume { get; set; }
-
-        [JsonProperty("x")]
-        public bool IsBarFinal { get; set; }
     }
 }

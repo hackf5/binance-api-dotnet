@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
 
-    public class BookTickerStreamEvent : StreamEvent
+    public class BookTickerStreamEvent : SymbolStreamEvent
     {
         [JsonProperty("a")]
         public decimal BestAskPrice { get; set; }

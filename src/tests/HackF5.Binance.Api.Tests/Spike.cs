@@ -1,8 +1,9 @@
 namespace HackF5.Binance.Api.Tests
 {
-    using System;
     using System.Threading.Tasks;
 
+    using HackF5.Binance.Api.Client;
+    using HackF5.Binance.Api.Model.Core;
     using HackF5.Binance.Api.Util;
 
     using Xunit;
@@ -19,12 +20,28 @@ namespace HackF5.Binance.Api.Tests
 
         public async Task Spike1Async()
         {
-            using var client = new WebSocketClient(new[] { "btcusdt@aggTrade", "btcusdt@bookTicker" });
+            var client = new WebSocketClient();
 
-            var count = 100;
-            await foreach (var item in client.GetStreamAsync())
+            var count = 10;
+            await foreach (var item in client.GetStreamAsync("btcusdt@aggTrade"))
             {
                 this._output.WriteLine(item);
+
+                if (--count == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        public async Task KlineSpikeAsync()
+        {
+            var client = new MarketStreamClient(new WebSocketClient());
+
+            var count = 10;
+            await foreach (var item in client.GetKlineAsync(new("btcusdt", KlineInterval.Minutes1)))
+            {
+                this._output.WriteLine($"{item!.Payload!.Data!.ClosePrice}");
 
                 if (--count == 0)
                 {

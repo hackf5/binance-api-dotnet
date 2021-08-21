@@ -6,7 +6,7 @@
 
     using Newtonsoft.Json;
 
-    public class AggregateTradeStreamEvent : StreamEvent
+    public class AggregateTradeStreamEvent : SymbolStreamEvent
     {
         [JsonProperty("a")]
         public long AggregateTradeId { get; set; }

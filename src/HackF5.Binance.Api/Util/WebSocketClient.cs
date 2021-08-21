@@ -2,49 +2,29 @@ namespace HackF5.Binance.Api.Util
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Immutable;
-    using System.Linq;
     using System.Net.WebSockets;
     using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading;
-    using System.Threading.Tasks;
 
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
-
-    public sealed class WebSocketClient : IDisposable
+    public class WebSocketClient : IWebSocketClient
     {
-        private static readonly JsonSerializerSettings SerializerSettings = new()
-        {
-            ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy(),
-            },
-            Formatting = Formatting.None,
-        };
-
-        private readonly ClientWebSocket _webSocket = new();
-
-        private readonly SemaphoreSlim _semaphore = new(1);
-
-        private bool _connected;
-
-        public WebSocketClient(IEnumerable<string> streamNames)
-        {
-            this._webSocket.Options.KeepAliveInterval = TimeSpan.FromSeconds(190);
-            this.StreamNames = streamNames.ToImmutableArray();
-        }
-
-        public IReadOnlyList<string> StreamNames { get; }
+        private static readonly Uri BaseWebsocketUri = new("wss://stream.binance.com:9443/ws");
 
         public async IAsyncEnumerable<string> GetStreamAsync(
+            string streamName,
             [EnumeratorCancellation] CancellationToken cancellation = default)
         {
-            await this.ConnectAsync(cancellation);
+            var uriBuilder = new UriBuilder(BaseWebsocketUri) { Path = $"/ws/{streamName}" };
+            var uri = uriBuilder.Uri;
+
+            using var socket = new ClientWebSocket();
+            socket.Options.KeepAliveInterval = TimeSpan.FromSeconds(190);
+
+            await socket.ConnectAsync(uri, cancellation);
 
             var buffer = WebSocket.CreateClientBuffer(1024, 1024);
-            while (this._webSocket.State == WebSocketState.Open)
+            while (socket.State == WebSocketState.Open)
             {
                 var builder = new StringBuilder();
                 while (true)
@@ -52,7 +32,7 @@ namespace HackF5.Binance.Api.Util
                     WebSocketReceiveResult result;
                     try
                     {
-                        result = await this._webSocket.ReceiveAsync(buffer, cancellation);
+                        result = await socket.ReceiveAsync(buffer, cancellation);
                     }
                     catch (OperationCanceledException)
                     {
@@ -69,72 +49,6 @@ namespace HackF5.Binance.Api.Util
 
                 yield return builder.ToString();
             }
-        }
-
-        public void Dispose()
-        {
-            this._webSocket.Dispose();
-            this._semaphore.Dispose();
-        }
-
-        private async Task ConnectAsync(CancellationToken cancellation = default)
-        {
-            await this._semaphore.WaitAsync(cancellation);
-            try
-            {
-                if (this._connected)
-                {
-                    throw new InvalidOperationException("Client is already connected.");
-                }
-
-                this._connected = true;
-                await this._webSocket.ConnectAsync(
-                    new Uri("wss://stream.binance.com:9443/stream"), cancellation);
-
-                var request = new StreamRequest(this.StreamNames.ToArray());
-
-                var json = JsonConvert.SerializeObject(request, SerializerSettings);
-                var buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(json));
-                await this._webSocket.SendAsync(buffer, WebSocketMessageType.Text, false, cancellation);
-
-                // the first result is always the response.
-                var resultBuffer = WebSocket.CreateClientBuffer(1024, 1024);
-                var result = await this._webSocket.ReceiveAsync(resultBuffer, cancellation);
-
-                var builder = new StringBuilder();
-                builder.Append(Encoding.UTF8.GetString(resultBuffer.Slice(0, result.Count)));
-                var resultJson = builder.ToString();
-                var response = JsonConvert.DeserializeObject<StreamResponse>(resultJson);
-                if (response is null || response.Id != 1 || response.Result is not null)
-                {
-                    throw new InvalidOperationException($"Unexpected result JSON: {resultJson}.");
-                }
-            }
-            finally
-            {
-                this._semaphore.Release();
-            }
-        }
-
-        private class StreamRequest
-        {
-            public StreamRequest(string[] @params)
-            {
-                this.Params = @params;
-            }
-
-            public uint Id { get; } = 1;
-
-            public string Method { get; } = "SUBSCRIBE";
-
-            public string[] Params { get; set; }
-        }
-
-        private class StreamResponse
-        {
-            public uint Id { get; set; }
-
-            public string? Result { get; set; }
         }
     }
 }
