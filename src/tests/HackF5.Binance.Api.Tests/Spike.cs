@@ -38,10 +38,27 @@ namespace HackF5.Binance.Api.Tests
         {
             var client = new MarketStreamClient(new WebSocketClient());
 
-            var count = 10;
+            var count = 3;
             await foreach (var item in client.GetKlineAsync(new("btcusdt", KlineInterval.Minutes1)))
             {
                 this._output.WriteLine($"{item!.Payload!.Data!.ClosePrice}");
+
+                if (--count == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        [Fact]
+        public async Task BookTickerSpikeAsync()
+        {
+            var client = new MarketStreamClient(new WebSocketClient());
+
+            var count = 3;
+            await foreach (var item in client.GetBookTickerAsync(new("btcusdt")))
+            {
+                this._output.WriteLine($"{item!.Payload!.BestAskPrice}");
 
                 if (--count == 0)
                 {
