@@ -4,14 +4,14 @@
 
     using HackF5.Binance.Api.Util;
 
-    public class Response<TRequest, TPayload>
+    public class ResponseBase<TRequest, TPayload>
     {
-        public Response(TRequest request, string json)
+        public ResponseBase(TRequest request, string json)
             : this(request, JsonSerializer.Deserialize<TPayload>(json))
         {
         }
 
-        private Response(TRequest request, TPayload payload)
+        private ResponseBase(TRequest request, TPayload payload)
         {
             this.Request = request;
             this.Payload = payload;

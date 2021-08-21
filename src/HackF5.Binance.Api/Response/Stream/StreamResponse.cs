@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     public abstract class StreamResponse<TRequest, TPayload> :
-        IAsyncEnumerable<Response<TRequest, TPayload>>,
+        IAsyncEnumerable<ResponseBase<TRequest, TPayload>>,
         IDisposable
         where TRequest : class
     {
@@ -40,7 +40,7 @@
             GC.SuppressFinalize(this);
         }
 
-        public IAsyncEnumerator<Response<TRequest, TPayload>> GetAsyncEnumerator(
+        public IAsyncEnumerator<ResponseBase<TRequest, TPayload>> GetAsyncEnumerator(
             CancellationToken cancellationToken = default)
         {
             if (Interlocked.CompareExchange(ref this._sentinel, 1, 0) != 0)
@@ -68,7 +68,7 @@
             this._enumeratorCancellationTokenSource?.Dispose();
         }
 
-        private class ResponseStreamEnumerator : IAsyncEnumerator<Response<TRequest, TPayload>>
+        private class ResponseStreamEnumerator : IAsyncEnumerator<ResponseBase<TRequest, TPayload>>
         {
             private readonly TRequest _request;
 
@@ -80,12 +80,12 @@
                 this._underlying = underlying;
             }
 
-            public Response<TRequest, TPayload> Current
+            public ResponseBase<TRequest, TPayload> Current
             {
                 get
                 {
                     var current = this._underlying.Current;
-                    return new Response<TRequest, TPayload>(this._request, current);
+                    return new ResponseBase<TRequest, TPayload>(this._request, current);
                 }
             }
 
