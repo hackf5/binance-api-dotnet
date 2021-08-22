@@ -23,6 +23,7 @@
         "NOLOGO",
         "Serilog",
         "Xunit",
+        "btcusdt",
         "chmod",
         "codecov",
         "deserialization",
