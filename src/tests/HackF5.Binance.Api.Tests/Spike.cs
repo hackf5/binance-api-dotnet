@@ -1,3 +1,5 @@
+#pragma warning disable xUnit1004
+
 namespace HackF5.Binance.Api.Tests
 {
     using System.Threading.Tasks;
@@ -6,6 +8,7 @@ namespace HackF5.Binance.Api.Tests
     using HackF5.Binance.Api.Model.Core;
     using HackF5.Binance.Api.Util;
 
+    using Xunit;
     using Xunit.Abstractions;
 
     public class Spike
@@ -73,6 +76,23 @@ namespace HackF5.Binance.Api.Tests
             await foreach (var item in client.GetOrderBookAsync(new("btcusdt")))
             {
                 this._output.WriteLine($"{item!.Payload!.Asks.Length}");
+
+                if (--count == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        [Fact(Skip = "Spike.")]
+        public async Task AggregateTradesSpikeAsync()
+        {
+            var client = new MarketStreamClient(new WebSocketClient());
+
+            var count = 3;
+            await foreach (var item in client.GetAggregateTradesAsync(new("btcusdt")))
+            {
+                this._output.WriteLine($"{item!.Payload!.Price}");
 
                 if (--count == 0)
                 {

@@ -12,6 +12,13 @@ namespace HackF5.Binance.Api.Client
 
         public MarketStreamClient(IWebSocketClient socket) => this._socket = socket;
 
+        public AggregateTradesStreamResponse GetAggregateTradesAsync(
+            AggregateTradesStreamRequest request,
+            CancellationToken cancellation = default) => new(
+                request,
+                this._socket.GetStreamAsync(request.Path, cancellation),
+                cancellation);
+
         public BookTickerStreamResponse GetBookTickerAsync(
             BookTickerStreamRequest request,
             CancellationToken cancellation = default) => new(
