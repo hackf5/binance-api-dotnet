@@ -6,7 +6,6 @@ namespace HackF5.Binance.Api.Tests
     using HackF5.Binance.Api.Model.Core;
     using HackF5.Binance.Api.Util;
 
-    using Xunit;
     using Xunit.Abstractions;
 
     public class Spike
@@ -50,7 +49,6 @@ namespace HackF5.Binance.Api.Tests
             }
         }
 
-        [Fact]
         public async Task BookTickerSpikeAsync()
         {
             var client = new MarketStreamClient(new WebSocketClient());
@@ -59,6 +57,22 @@ namespace HackF5.Binance.Api.Tests
             await foreach (var item in client.GetBookTickerAsync(new("btcusdt")))
             {
                 this._output.WriteLine($"{item!.Payload!.BestAskPrice}");
+
+                if (--count == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        public async Task OrderBookSpikeAsync()
+        {
+            var client = new MarketStreamClient(new WebSocketClient());
+
+            var count = 3;
+            await foreach (var item in client.GetOrderBookAsync(new("btcusdt")))
+            {
+                this._output.WriteLine($"{item!.Payload!.Asks.Length}");
 
                 if (--count == 0)
                 {

@@ -25,5 +25,12 @@ namespace HackF5.Binance.Api.Client
                 request,
                 this._socket.GetStreamAsync(request.Path, cancellation),
                 cancellation);
+
+        public OrderBookStreamResponse GetOrderBookAsync(
+            OrderBookStreamRequest request,
+            CancellationToken cancellation = default) => new(
+                request,
+                this._socket.GetStreamAsync(request.Path, cancellation),
+                cancellation);
     }
 }

@@ -6,13 +6,12 @@ namespace HackF5.Binance.Api.Util
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    using NJsonSerializer = Newtonsoft.Json.JsonSerializer;
+
     public class UnixTimeConverter : DateTimeConverterBase
     {
-        public override bool CanRead => base.CanRead;
-
-        public override bool CanWrite => base.CanWrite;
-
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        public override object? ReadJson(
+            JsonReader reader, Type objectType, object? existingValue, NJsonSerializer serializer)
         {
             var value = reader.Value;
             return value == null
@@ -20,7 +19,7 @@ namespace HackF5.Binance.Api.Util
                 : (object)DateTimeOffset.FromUnixTimeMilliseconds((long)value).DateTime;
         }
 
-        public override void WriteJson(JsonWriter writer, object? value, Newtonsoft.Json.JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, NJsonSerializer serializer)
         {
             var offset = value switch
             {
