@@ -30,6 +30,7 @@
         "deserializes",
         "editorconfig",
         "floop",
+        "klines",
         "mkdir",
         "runsettings",
         "struct"

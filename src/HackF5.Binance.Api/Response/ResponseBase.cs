@@ -13,8 +13,8 @@
 
         private ResponseBase(TRequest request, TPayload payload)
         {
-            this.Request = request;
-            this.Payload = payload;
+            this.Request = request ?? throw new ArgumentNullException(nameof(request));
+            this.Payload = payload ?? throw new ArgumentNullException(nameof(payload));
         }
 
         public DateTime Time { get; } = DateTime.UtcNow;
