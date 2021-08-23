@@ -3,9 +3,9 @@
     using HackF5.Binance.Api.Model.Rest.Market;
     using HackF5.Binance.Api.Request.Rest.Market;
 
-    public class KlineRestResponse : ResponseBase<KlineRestRequest, KlineRestData[]>
+    public class OrderBookRestResponse : ResponseBase<OrderBookRestRequest, OrderBookRestData>
     {
-        public KlineRestResponse(KlineRestRequest request, string json)
+        public OrderBookRestResponse(OrderBookRestRequest request, string json)
             : base(request, json)
         {
         }

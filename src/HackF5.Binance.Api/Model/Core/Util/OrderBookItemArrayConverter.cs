@@ -1,4 +1,4 @@
-namespace HackF5.Binance.Api.Util
+namespace HackF5.Binance.Api.Model.Core.Util
 {
     using System;
 

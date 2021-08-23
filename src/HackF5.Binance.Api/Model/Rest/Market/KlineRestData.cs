@@ -1,9 +1,9 @@
-﻿namespace Up.Crypto.Binance.Model.Rest
+﻿namespace HackF5.Binance.Api.Model.Rest.Market
 {
     using System;
     using System.Diagnostics;
 
-    using HackF5.Binance.Api.Util;
+    using HackF5.Binance.Api.Model.Rest.Market.Util;
 
     using Newtonsoft.Json;
 

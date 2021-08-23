@@ -2,7 +2,7 @@
 {
     using System;
 
-    using HackF5.Binance.Api.Util;
+    using HackF5.Binance.Api.Model.Core.Util;
 
     using Newtonsoft.Json;
 

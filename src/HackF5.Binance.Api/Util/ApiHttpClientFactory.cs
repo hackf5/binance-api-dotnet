@@ -5,13 +5,13 @@ namespace HackF5.Binance.Api.Util
 
     using Microsoft.Extensions.DependencyInjection;
 
-    public sealed class ApiClientFactory : IDisposable
+    public sealed class ApiHttpClientFactory : IDisposable
     {
         private readonly ServiceProvider _provider;
 
         private readonly IHttpClientFactory _factory;
 
-        public ApiClientFactory()
+        public ApiHttpClientFactory()
         {
             var services = new ServiceCollection();
             services.AddHttpClient(

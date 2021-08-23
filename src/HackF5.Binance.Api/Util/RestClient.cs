@@ -17,11 +17,11 @@
 
         private const string RetryAfterHeaderKey = "Retry-After";
 
-        private readonly ApiClientFactory _clientFactory;
+        private readonly ApiHttpClientFactory _clientFactory;
 
         private readonly RequestSemaphore _semaphore;
 
-        public RestClient(ApiClientFactory clientFactory, RequestSemaphore semaphore)
+        public RestClient(ApiHttpClientFactory clientFactory, RequestSemaphore semaphore)
         {
             this._clientFactory = clientFactory;
             this._semaphore = semaphore;

@@ -1,4 +1,4 @@
-namespace HackF5.Binance.Api.Model.Stream
+namespace HackF5.Binance.Api.Model.Rest.Market
 {
     using System;
 
@@ -7,20 +7,17 @@ namespace HackF5.Binance.Api.Model.Stream
 
     using Newtonsoft.Json;
 
-    public class OrderBookStreamEvent : SymbolStreamEvent
+    public class OrderBookRestData
     {
-        [JsonProperty("U")]
-        public long FirstUpdateId { get; set; }
-
-        [JsonProperty("u")]
+        [JsonProperty("lastUpdateId")]
         public long LastUpdateId { get; set; }
 
 #pragma warning disable CA1819
-        [JsonProperty("b")]
+        [JsonProperty("bids")]
         [JsonConverter(typeof(OrderBookItemArrayConverter))]
         public OrderBookItem[] Bids { get; set; } = Array.Empty<OrderBookItem>();
 
-        [JsonProperty("a")]
+        [JsonProperty("asks")]
         [JsonConverter(typeof(OrderBookItemArrayConverter))]
         public OrderBookItem[] Asks { get; set; } = Array.Empty<OrderBookItem>();
 #pragma warning restore CA1819

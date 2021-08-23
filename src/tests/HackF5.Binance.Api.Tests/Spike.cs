@@ -105,7 +105,7 @@ namespace HackF5.Binance.Api.Tests
         [Fact(Skip = "Spike.")]
         public async Task KlineRestSpikeAsync()
         {
-            using var factory = new ApiClientFactory();
+            using var factory = new ApiHttpClientFactory();
             using var semaphore = new RequestSemaphore();
 
             var rest = new RestClient(factory, semaphore);
@@ -115,6 +115,20 @@ namespace HackF5.Binance.Api.Tests
                 new("btcusdt", KlineInterval.Minutes3));
 
             this._output.WriteLine($"{response.Payload.Length}");
+        }
+
+        [Fact(Skip = "Spike.")]
+        public async Task OrderBookRestSpikeAsync()
+        {
+            using var factory = new ApiHttpClientFactory();
+            using var semaphore = new RequestSemaphore();
+
+            var rest = new RestClient(factory, semaphore);
+            var client = new MarketRestClient(rest);
+
+            var response = await client.GetOrderBookAsync(new("btcusdt"));
+
+            this._output.WriteLine($"{response.Payload.Asks.Length}");
         }
     }
 }

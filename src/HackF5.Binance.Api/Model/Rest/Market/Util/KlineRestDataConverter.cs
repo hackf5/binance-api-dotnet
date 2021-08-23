@@ -1,11 +1,9 @@
-namespace HackF5.Binance.Api.Util
+namespace HackF5.Binance.Api.Model.Rest.Market.Util
 {
     using System;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-
-    using Up.Crypto.Binance.Model.Rest;
 
     using NJsonSerializer = Newtonsoft.Json.JsonSerializer;
 

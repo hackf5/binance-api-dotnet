@@ -13,6 +13,12 @@ namespace HackF5.Binance.Api.Client
 
         public MarketRestClient(IRestClient rest) => this._rest = rest;
 
+        public async Task<OrderBookRestResponse> GetOrderBookAsync(
+            OrderBookRestRequest request,
+            CancellationToken cancellation = default) => new(
+                request,
+                await this._rest.GetRequestAsync(request, cancellation: cancellation));
+
         public async Task<KlineRestResponse> GetKlineAsync(
             KlineRestRequest request,
             CancellationToken cancellation = default) => new(
