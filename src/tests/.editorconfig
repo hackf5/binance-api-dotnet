@@ -1,0 +1,22 @@
+# C# files
+[*.cs]
+
+
+# non-local async methods: no Async suffix
+dotnet_naming_rule.non_local_async_methods_should_be_pascal_case_end_with_async.severity = warning
+dotnet_naming_rule.non_local_async_methods_should_be_pascal_case_end_with_async.symbols = non_local_async_methods
+dotnet_naming_rule.non_local_async_methods_should_be_pascal_case_end_with_async.style = pascal_case
+
+dotnet_naming_symbols.non_local_async_methods.applicable_kinds = method
+dotnet_naming_symbols.non_local_async_methods.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.non_local_async_methods.required_modifiers = async
+
+dotnet_naming_style.pascal_case.required_prefix =
+dotnet_naming_style.pascal_case.required_suffix =
+dotnet_naming_style.pascal_case.word_separator =
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+# Diagnostics
+
+dotnet_diagnostic.xUnit2013.severity = none # require special treatment for collection size 0 and 1
+dotnet_diagnostic.CA1707.severity = none # do not use underscores in member names

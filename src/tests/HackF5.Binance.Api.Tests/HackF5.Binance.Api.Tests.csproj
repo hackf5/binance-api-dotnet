@@ -32,4 +32,8 @@
     <ProjectReference Include="..\..\HackF5.Binance.Api\HackF5.Binance.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include=".testFiles\**" CopyToOutputDirectory="PreserveNewest" LinkBase=".testFiles\" />
+  </ItemGroup>
+
 </Project>
