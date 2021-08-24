@@ -2,10 +2,9 @@
 {
     using System;
 
-    using EnumsNET;
-
     using HackF5.Binance.Api.Model.Core;
     using HackF5.Binance.Api.Request.Rest.Core;
+    using HackF5.Binance.Api.Util;
 
     public class KlineRestRequest : RangeRestRequest
     {
@@ -24,8 +23,7 @@
                 l => LimitValidation.ValidateRange(l, 1, 1000),
                 null)
         {
-            this.Interval = interval.AsString(EnumFormat.EnumMemberValue)
-                ?? throw new ArgumentException($"Unknown interval {interval}.", nameof(interval));
+            this.Interval = interval.AsEnumMember();
         }
 
         [QueryParameter("interval")]

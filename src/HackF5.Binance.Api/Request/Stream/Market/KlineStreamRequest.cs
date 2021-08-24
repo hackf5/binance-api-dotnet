@@ -1,8 +1,7 @@
 ﻿namespace HackF5.Binance.Api.Request.Stream.Market
 {
-    using EnumsNET;
-
     using HackF5.Binance.Api.Model.Core;
+    using HackF5.Binance.Api.Util;
 
     public class KlineStreamRequest : SymbolStreamRequest
     {
@@ -11,6 +10,6 @@
 
         public KlineInterval Interval { get; }
 
-        public override string Parameters => $"kline_{this.Interval.AsString(EnumFormat.EnumMemberValue)}";
+        public override string Parameters => $"kline_{this.Interval.AsEnumMember()}";
     }
 }

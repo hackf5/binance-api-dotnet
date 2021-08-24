@@ -13,8 +13,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="newtonsoft.json" Version="13.0.1" />
-    <PackageReference Include="enums.net" Version="4.0.0" />
-    <PackageReference Include="serilog" Version="2.10.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

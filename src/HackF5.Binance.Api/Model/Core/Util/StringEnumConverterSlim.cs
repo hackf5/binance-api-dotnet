@@ -2,22 +2,24 @@ namespace HackF5.Binance.Api.Model.Core.Util
 {
     using System;
 
-    using EnumsNET;
+    using HackF5.Binance.Api.Util;
 
     using Newtonsoft.Json;
+
+    using NJsonSerializer = Newtonsoft.Json.JsonSerializer;
 
     public class StringEnumConverterSlim<TEnum> : JsonConverter<TEnum>
     where TEnum : struct, Enum
     {
         public override TEnum ReadJson(
-            JsonReader reader, Type objectType, TEnum existingValue, bool hasExistingValue, JsonSerializer serializer)
+            JsonReader reader, Type objectType, TEnum existingValue, bool hasExistingValue, NJsonSerializer serializer)
         {
-            return Enums.Parse<TEnum>((string)reader.Value!, false, EnumFormat.EnumMemberValue);
+            return ((string)reader.Value!).FromEnumMember<TEnum>();
         }
 
-        public override void WriteJson(JsonWriter writer, TEnum value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, TEnum value, NJsonSerializer serializer)
         {
-            writer.WriteValue(value.AsString(EnumFormat.EnumMemberValue));
+            writer.WriteValue(value.AsEnumMember());
         }
     }
 }

@@ -17,11 +17,11 @@
 
         private const string DummyUriString = "http://hackf5.io/";
 
-        private readonly ApiHttpClientFactory _clientFactory;
+        private readonly IApiHttpClientFactory _clientFactory;
 
         private readonly RequestSemaphore _semaphore;
 
-        public RestClient(ApiHttpClientFactory clientFactory, RequestSemaphore semaphore)
+        public RestClient(IApiHttpClientFactory clientFactory, RequestSemaphore semaphore)
         {
             this._clientFactory = clientFactory;
             this._semaphore = semaphore;

@@ -8,7 +8,7 @@
 
     using HackF5.Binance.Api.Request.Rest;
 
-    public sealed class RequestSemaphore : IDisposable
+    public sealed class RequestSemaphore : IRequestSemaphore
     {
         private const int SpinWaitMilliseconds = 10;
 
