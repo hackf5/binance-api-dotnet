@@ -18,7 +18,7 @@ namespace HackF5.Binance.Api.Tests.Client
         [Fact]
         public async Task GetOrderBookAsync_ValidRequest_ReturnsResponse()
         {
-            // Arrange
+            // Given
             var rest = A.Fake<IRestClient>().SetupGetResponseAsync("MarketRestClient/orderBook1.json");
             var client = new MarketRestClient(rest);
             var request = new OrderBookRestRequest("btcusdt");
@@ -38,10 +38,10 @@ namespace HackF5.Binance.Api.Tests.Client
                 },
             };
 
-            // Act
+            // When
             var response = await client.GetOrderBookAsync(request);
 
-            // Assert
+            // Then
             Assert.Equal(request, response.Request);
             Assert.Equal(expectedPayload, response.Payload, OrderBookRestDataEqualityComparer.Instance);
         }

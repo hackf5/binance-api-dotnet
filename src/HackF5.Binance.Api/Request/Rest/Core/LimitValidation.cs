@@ -10,12 +10,16 @@
         {
             if (limit < lower)
             {
-                throw new ArgumentException($"Invalid limit: {limit}. Limit must be at least {lower}.");
+                throw new ArgumentException(
+                    $"Invalid limit: {limit}. Limit must be at least {lower}.",
+                    nameof(limit));
             }
 
             if (limit > upper)
             {
-                throw new ArgumentException($"Invalid limit: {limit}. Limit must be less than or equal to {upper}.");
+                throw new ArgumentException(
+                    $"Invalid limit: {limit}. Limit must be less than or equal to {upper}.",
+                    nameof(limit));
             }
         }
 
@@ -30,7 +34,8 @@
             {
                 throw new ArgumentException(
                     $"Invalid limit: {limit}. "
-                    + $"Valid limits are: {string.Join(", ", collection.OrderBy(x => x))}.");
+                    + $"Valid limits are: {string.Join(", ", collection.OrderBy(x => x))}.",
+                    nameof(limit));
             }
         }
     }
