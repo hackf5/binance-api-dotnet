@@ -29,7 +29,7 @@
         public decimal HighPrice { get; set; }
 
         [JsonProperty("i")]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverterSlim<KlineInterval>))]
         public KlineInterval Interval { get; set; }
 
         [JsonProperty("x")]

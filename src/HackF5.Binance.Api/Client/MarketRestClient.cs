@@ -17,12 +17,12 @@ namespace HackF5.Binance.Api.Client
             OrderBookRestRequest request,
             CancellationToken cancellation = default) => new(
                 request,
-                await this._rest.GetRequestAsync(request, cancellation: cancellation));
+                await this._rest.GetResponseAsync(request, cancellation: cancellation));
 
         public async Task<KlineRestResponse> GetKlineAsync(
             KlineRestRequest request,
             CancellationToken cancellation = default) => new(
                 request,
-                await this._rest.GetRequestAsync(request, cancellation: cancellation));
+                await this._rest.GetResponseAsync(request, cancellation: cancellation));
     }
 }

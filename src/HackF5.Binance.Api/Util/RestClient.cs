@@ -11,11 +11,11 @@
 
     public sealed class RestClient : IRestClient
     {
-        private const int DefaultMaxAttempts = 10;
-
-        private const int IpBan = 418;
+        private const int IpBanStatusCode = 418;
 
         private const string RetryAfterHeaderKey = "Retry-After";
+
+        private const string DummyUriString = "http://hackf5.io/";
 
         private readonly ApiHttpClientFactory _clientFactory;
 
@@ -27,18 +27,18 @@
             this._semaphore = semaphore;
         }
 
-        public async Task<string> GetRequestAsync(
+        public async Task<string> GetResponseAsync(
             RestRequest request,
-            int maxAttempts = DefaultMaxAttempts,
-            CancellationToken cancellation = default)
+            int maxAttempts,
+            CancellationToken cancellation)
         {
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            var uri = new Uri("http://hackf5.io/").MakeRelativeUri(
-                new UriBuilder("http://hackf5.io/") { Path = request.Path, Query = request.Query }.Uri);
+            var uri = new Uri(DummyUriString).MakeRelativeUri(
+                new UriBuilder(DummyUriString) { Path = request.Path, Query = request.Query }.Uri);
 
             using var client = this._clientFactory.CreateClient();
 
@@ -50,7 +50,7 @@
                 switch ((int)response.StatusCode)
                 {
                     case (int)HttpStatusCode.TooManyRequests:
-                    case IpBan:
+                    case IpBanStatusCode:
                         var seconds = Convert.ToDouble(
                             response.Headers.First(h => h.Key == RetryAfterHeaderKey).Value.First()!,
                             CultureInfo.InvariantCulture);

@@ -7,18 +7,17 @@ namespace HackF5.Binance.Api.Model.Core.Util
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using NJsonSerializer = Newtonsoft.Json.JsonSerializer;
-
-    public class OrderBookItemArrayConverter : JsonConverter
+    public class OrderBookItemArrayConverter : JsonConverter<OrderBookItem[]?>
     {
         public override bool CanWrite => false;
 
-        public override void WriteJson(JsonWriter writer, object? value, NJsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, OrderBookItem[]? value, JsonSerializer serializer)
         {
             throw new NotSupportedException();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, NJsonSerializer serializer)
+        public override OrderBookItem[]? ReadJson(
+            JsonReader reader, Type objectType, OrderBookItem[]? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             var items = JArray.Load(reader);
             var result = new OrderBookItem[items.Count];
@@ -34,11 +33,6 @@ namespace HackF5.Binance.Api.Model.Core.Util
             }
 
             return result;
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            throw new NotSupportedException();
         }
     }
 }

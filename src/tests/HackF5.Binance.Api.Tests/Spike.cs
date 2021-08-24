@@ -37,6 +37,7 @@ namespace HackF5.Binance.Api.Tests
             }
         }
 
+        [Fact]
         public async Task KlineSpikeAsync()
         {
             var client = new MarketStreamClient(new WebSocketClient());

@@ -5,17 +5,21 @@ namespace HackF5.Binance.Api.Model.Rest.Market.Util
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using NJsonSerializer = Newtonsoft.Json.JsonSerializer;
-
-    public class KlineRestDataConverter : JsonConverter
+    public class KlineRestDataConverter : JsonConverter<KlineRestData?>
     {
-        public override void WriteJson(JsonWriter writer, object? value, NJsonSerializer serializer)
+        public override bool CanWrite => false;
+
+        public override void WriteJson(JsonWriter writer, KlineRestData? value, JsonSerializer serializer)
         {
             throw new NotSupportedException();
         }
 
-        public override object ReadJson(
-            JsonReader reader, Type objectType, object? existingValue, NJsonSerializer serializer)
+        public override KlineRestData? ReadJson(
+            JsonReader reader,
+            Type objectType,
+            KlineRestData? existingValue,
+            bool hasExistingValue,
+            JsonSerializer serializer)
         {
             var data = JArray.Load(reader);
             return new KlineRestData
@@ -32,11 +36,6 @@ namespace HackF5.Binance.Api.Model.Rest.Market.Util
                 TakerBuyBaseAssetVolume = (decimal)data[9],
                 TakerBuyQuoteAssetVolume = (decimal)data[10],
             };
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            throw new NotSupportedException();
         }
 
         private static DateTime AsDateTime(JToken value) =>

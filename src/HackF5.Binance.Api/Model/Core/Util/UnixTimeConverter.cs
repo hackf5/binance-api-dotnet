@@ -4,31 +4,21 @@ namespace HackF5.Binance.Api.Model.Core.Util
     using System.Globalization;
 
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
 
-    using NJsonSerializer = Newtonsoft.Json.JsonSerializer;
-
-    public class UnixTimeConverter : DateTimeConverterBase
+    public class UnixTimeConverter : JsonConverter<DateTime>
     {
-        public override object? ReadJson(
-            JsonReader reader, Type objectType, object? existingValue, NJsonSerializer serializer)
+        public override DateTime ReadJson(
+            JsonReader reader, Type objectType, DateTime existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             var value = reader.Value;
             return value == null
                 ? DateTime.UnixEpoch
-                : (object)DateTimeOffset.FromUnixTimeMilliseconds((long)value).DateTime;
+                : DateTimeOffset.FromUnixTimeMilliseconds((long)value).DateTime;
         }
 
-        public override void WriteJson(JsonWriter writer, object? value, NJsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, DateTime value, JsonSerializer serializer)
         {
-            var offset = value switch
-            {
-                DateTime t => new DateTimeOffset(t),
-                DateTimeOffset o => o,
-                _ => throw new ArgumentException($"Unknown date value {value}."),
-            };
-
-            writer.WriteRawValue(offset.ToUnixTimeMilliseconds().ToString(CultureInfo.InvariantCulture));
+            writer.WriteRawValue(new DateTimeOffset(value).ToUnixTimeMilliseconds().ToString(CultureInfo.InvariantCulture));
         }
     }
 }

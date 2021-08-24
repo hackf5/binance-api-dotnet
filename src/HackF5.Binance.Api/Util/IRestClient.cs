@@ -7,6 +7,9 @@ namespace HackF5.Binance.Api.Util
 
     public interface IRestClient
     {
-        Task<string> GetRequestAsync(RestRequest request, int maxAttempts = 10, CancellationToken cancellation = default);
+        Task<string> GetResponseAsync(
+            RestRequest request,
+            int maxAttempts = 10,
+            CancellationToken cancellation = default);
     }
 }
