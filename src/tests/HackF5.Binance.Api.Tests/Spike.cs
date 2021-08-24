@@ -37,7 +37,6 @@ namespace HackF5.Binance.Api.Tests
             }
         }
 
-        [Fact]
         public async Task KlineSpikeAsync()
         {
             var client = new MarketStreamClient(new WebSocketClient());
@@ -86,7 +85,6 @@ namespace HackF5.Binance.Api.Tests
             }
         }
 
-        [Fact(Skip = "Spike.")]
         public async Task AggregateTradesSpikeAsync()
         {
             var client = new MarketStreamClient(new WebSocketClient());
@@ -103,7 +101,6 @@ namespace HackF5.Binance.Api.Tests
             }
         }
 
-        [Fact(Skip = "Spike.")]
         public async Task KlineRestSpikeAsync()
         {
             using var factory = new ApiHttpClientFactory();
@@ -118,7 +115,6 @@ namespace HackF5.Binance.Api.Tests
             this._output.WriteLine($"{response.Payload.Length}");
         }
 
-        [Fact(Skip = "Spike.")]
         public async Task OrderBookRestSpikeAsync()
         {
             using var factory = new ApiHttpClientFactory();
