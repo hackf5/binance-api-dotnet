@@ -5,6 +5,9 @@ namespace HackF5.Binance.Api.Request.Rest
     using System.Reflection;
 
     using HackF5.Binance.Api.Request.Rest.Core;
+    using HackF5.Binance.Api.Util;
+
+    using Microsoft.Extensions.Primitives;
 
     public abstract class RestRequest
     {
@@ -18,7 +21,7 @@ namespace HackF5.Binance.Api.Request.Rest
             get
             {
                 var parameters = new List<string>();
-                foreach (var property in this.GetType().GetRuntimeProperties().ToArray())
+                foreach (var property in this.GetType().GetRuntimeProperties().OrderBy(p => p.Name))
                 {
                     if (ExcludedProperties.Contains(property.Name))
                     {
@@ -35,6 +38,11 @@ namespace HackF5.Binance.Api.Request.Rest
                     if (value == null)
                     {
                         continue;
+                    }
+
+                    if (value.GetType().IsEnum)
+                    {
+                        value = EnumExtensions.AsEnumMember((dynamic)value);
                     }
 
                     parameters.Add($"{queryParameter.ParameterName}={value}");

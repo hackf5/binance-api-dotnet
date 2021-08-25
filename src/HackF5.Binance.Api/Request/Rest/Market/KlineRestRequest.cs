@@ -4,13 +4,12 @@
 
     using HackF5.Binance.Api.Model.Core;
     using HackF5.Binance.Api.Request.Rest.Core;
-    using HackF5.Binance.Api.Util;
 
     public class KlineRestRequest : RangeRestRequest
     {
         public KlineRestRequest(
             string symbol,
-            KlineInterval interval,
+            KlineInterval interval = KlineInterval.Minutes1,
             DateTime? startTime = null,
             DateTime? endTime = null,
             int limit = 500)
@@ -21,13 +20,13 @@
                 startTime,
                 endTime,
                 l => LimitValidation.ValidateRange(l, 1, 1000),
-                null)
+                (s, e) => TimeValidation.ValidateRange(s, e, null))
         {
-            this.Interval = interval.AsEnumMember();
+            this.Interval = interval;
         }
 
         [QueryParameter("interval")]
-        public string Interval { get; }
+        public KlineInterval Interval { get; }
 
         public override string Path => "klines";
 

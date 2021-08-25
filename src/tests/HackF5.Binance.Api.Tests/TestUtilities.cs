@@ -23,6 +23,10 @@ namespace HackF5.Binance.Api.Tests.Client
         public static string ReadTestFileText(this string relativePath) =>
             File.ReadAllText(relativePath.GetTestPath());
 
+        public static DateTime? FromUnixTime(this long? milliseconds) =>
+            milliseconds is null
+            ? null : DateTimeOffset.FromUnixTimeMilliseconds(milliseconds.Value).DateTime;
+
         private static string GetTestPath(this string relativePath)
         {
             if (relativePath.Contains(@"\", StringComparison.OrdinalIgnoreCase))
