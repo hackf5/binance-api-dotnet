@@ -7,8 +7,6 @@ namespace HackF5.Binance.Api.Request.Rest
     using HackF5.Binance.Api.Request.Rest.Core;
     using HackF5.Binance.Api.Util;
 
-    using Microsoft.Extensions.Primitives;
-
     public abstract class RestRequest
     {
         private static readonly HashSet<string> ExcludedProperties =

@@ -45,5 +45,39 @@ namespace HackF5.Binance.Api.Tests.Client
             Assert.Equal(request, response.Request);
             Assert.Equal(expectedPayload, response.Payload, OrderBookRestDataEqualityComparer.Instance);
         }
+
+        [Fact]
+        public async Task GetKlineAsync_ValidRequest_ReturnsResponse()
+        {
+            // Given
+            var rest = A.Fake<IRestClient>().SetupGetResponseAsync("MarketRestClient/kline1.jsonc");
+            var client = new MarketRestClient(rest);
+            var request = new KlineRestRequest("btcusdt");
+
+            var expectedPayload = new KlineRestData[]
+            {
+                new()
+                {
+                    BaseAssetVolume = 148976.11427815m,
+                    ClosePrice = 0.015771m,
+                    CloseTime = 1499644799999L.FromUnixTime(),
+                    HighPrice = 0.8m,
+                    LowPrice = 0.015758m,
+                    NumberOfTrades = 308,
+                    OpenPrice = 0.0163479m,
+                    OpenTime = 1499040000000L.FromUnixTime(),
+                    QuoteAssetVolume = 2434.19055334m,
+                    TakerBuyBaseAssetVolume = 1756.87402397m,
+                    TakerBuyQuoteAssetVolume = 28.46694368m,
+                },
+            };
+
+            // When
+            var response = await client.GetKlineAsync(request);
+
+            // Then
+            Assert.Equal(request, response.Request);
+            Assert.Equal(expectedPayload, response.Payload, KlineRestDataComparer.Instance);
+        }
     }
 }
