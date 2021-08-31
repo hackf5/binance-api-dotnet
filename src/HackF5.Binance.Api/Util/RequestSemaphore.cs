@@ -18,6 +18,13 @@
 
         private readonly Queue<(RestRequest Request, DateTime Time)> _requests = new();
 
+        private readonly ITemporalServices _dateTimeProvider;
+
+        public RequestSemaphore(ITemporalServices dateTimeProvider)
+        {
+            this._dateTimeProvider = dateTimeProvider;
+        }
+
         private int Weight => this._requests.Sum(t => t.Request.Weight);
 
         public async Task WaitAsync(RestRequest request, CancellationToken cancellation = default)
@@ -31,7 +38,7 @@
                     cancellation);
             }
 
-            this._requests.Enqueue((request, DateTime.UtcNow));
+            this._requests.Enqueue((request, this._dateTimeProvider.UtcNow));
             this._lock.Release();
         }
 
@@ -39,11 +46,9 @@
 
         private bool TotalWeightBelowThreshold(RestRequest request)
         {
-            var sentinel = DateTime.UtcNow.AddMinutes(-1);
-
             while (this._requests.TryPeek(out var t))
             {
-                if (t.Time < sentinel)
+                if (t.Time <= this._dateTimeProvider.UtcNow.AddMinutes(-1))
                 {
                     this._requests.Dequeue();
                     continue;

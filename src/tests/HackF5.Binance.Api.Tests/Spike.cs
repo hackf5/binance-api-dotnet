@@ -2,7 +2,6 @@
 
 namespace HackF5.Binance.Api.Tests
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using HackF5.Binance.Api.Client;
@@ -103,10 +102,11 @@ namespace HackF5.Binance.Api.Tests
 
         public async Task KlineRestSpikeAsync()
         {
+            var temporal = new TemporalServices();
             using var factory = new ApiHttpClientFactory();
-            using var semaphore = new RequestSemaphore();
+            using var semaphore = new RequestSemaphore(temporal);
 
-            var rest = new RestClient(factory, semaphore);
+            var rest = new RestClient(factory, semaphore, temporal);
             var client = new MarketRestClient(rest);
 
             var response = await client.GetKlineAsync(
@@ -117,10 +117,11 @@ namespace HackF5.Binance.Api.Tests
 
         public async Task OrderBookRestSpikeAsync()
         {
+            var temporal = new TemporalServices();
             using var factory = new ApiHttpClientFactory();
-            using var semaphore = new RequestSemaphore();
+            using var semaphore = new RequestSemaphore(temporal);
 
-            var rest = new RestClient(factory, semaphore);
+            var rest = new RestClient(factory, semaphore, temporal);
             var client = new MarketRestClient(rest);
 
             var response = await client.GetOrderBookAsync(new("btcusdt"));

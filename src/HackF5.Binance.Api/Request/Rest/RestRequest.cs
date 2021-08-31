@@ -14,7 +14,7 @@ namespace HackF5.Binance.Api.Request.Rest
 
         public abstract string Path { get; }
 
-        public string Query
+        public virtual string Query
         {
             get
             {

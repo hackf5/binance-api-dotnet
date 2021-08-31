@@ -19,12 +19,18 @@
 
         private readonly IApiHttpClientFactory _clientFactory;
 
-        private readonly RequestSemaphore _semaphore;
+        private readonly IRequestSemaphore _semaphore;
 
-        public RestClient(IApiHttpClientFactory clientFactory, RequestSemaphore semaphore)
+        private readonly ITemporalServices _temporal;
+
+        public RestClient(
+            IApiHttpClientFactory clientFactory,
+            IRequestSemaphore semaphore,
+            ITemporalServices temporal)
         {
             this._clientFactory = clientFactory;
             this._semaphore = semaphore;
+            this._temporal = temporal;
         }
 
         public async Task<string> GetResponseAsync(
@@ -55,7 +61,7 @@
                             response.Headers.First(h => h.Key == RetryAfterHeaderKey).Value.First()!,
                             CultureInfo.InvariantCulture);
 
-                        await Task.Delay(TimeSpan.FromSeconds(seconds), cancellation);
+                        await this._temporal.Delay(TimeSpan.FromSeconds(seconds), cancellation);
                         continue;
                     default:
                         response.EnsureSuccessStatusCode();
